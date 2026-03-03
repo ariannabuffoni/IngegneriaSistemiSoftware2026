@@ -24,7 +24,7 @@ public class Grid implements IGrid{
         }
 	}
 
-	public Grid(boolean[][] initialGrid) {
+	/*public Grid(boolean[][] initialGrid) {
 		this.rows = initialGrid.length; 	
         this.cols = initialGrid[0].length;
         
@@ -35,7 +35,7 @@ public class Grid implements IGrid{
                 this.griglia[i][j] = new Cell(initialGrid[i][j]);
             }
         }
-	}
+	}*/
 
 	@Override
 	public int getRows() {

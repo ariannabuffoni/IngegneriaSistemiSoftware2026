@@ -12,14 +12,14 @@ public class Life implements LifeInterface{
    }
 
     // Costruttore che accetta una griglia pre-configurata (utile per i test)
-    public Life(boolean[][] initialGrid) {
+    /*public Life(boolean[][] initialGrid) {
     	int rows = initialGrid.length; 	//getRows()
         int cols = initialGrid[0].length;	//getCols()
         
         // Inizializziamo entrambe le matrici
         this.currentGrid = new Grid(initialGrid); 
         this.nextGrid = new Grid(rows,cols);  
-    }
+    }*/
 
     // Costruttore che crea una griglia vuota di dimensioni specifiche
     public Life(int rows, int cols) {

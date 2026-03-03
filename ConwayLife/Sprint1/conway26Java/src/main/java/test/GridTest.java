@@ -102,37 +102,5 @@ public class GridTest {
         // La cella 0,0 ha 3 vicini vivi
         assertEquals(3, g.countAliveNeighbors(0, 0));
     }
-	
-    @Test
-    public void TestCostruttore() {
-    	System.out.println("GridTest | costruttore con matrice boolean");
-    	 /*
-        Configurazione:
-        M V M
-        M V M
-        V M V
-    	*/
-    	boolean[][] test = new boolean[3][3];
-    	test[0][0] = false;
-    	test[0][1] = true;
-    	test[0][2] = false;
-    	test[1][0] = false;
-    	test[1][1] = true;
-    	test[1][2] = false;
-    	test[2][0] = true;
-    	test[2][1] = false;
-    	test[2][2] = true;
-    	
-    	IGrid gTest = new Grid(test);
-    	assertFalse(gTest.getCell(0, 0).isAlive());
-    	assertTrue(gTest.getCell(0, 1).isAlive());
-    	assertFalse(gTest.getCell(0, 2).isAlive());
-    	assertFalse(gTest.getCell(1, 0).isAlive());
-    	assertTrue(gTest.getCell(1, 1).isAlive());
-    	assertFalse(gTest.getCell(1, 2).isAlive());
-    	assertTrue(gTest.getCell(2, 0).isAlive());
-    	assertFalse(gTest.getCell(2, 1).isAlive());
-    	assertTrue(gTest.getCell(2, 2).isAlive());
-    }
 }
 
