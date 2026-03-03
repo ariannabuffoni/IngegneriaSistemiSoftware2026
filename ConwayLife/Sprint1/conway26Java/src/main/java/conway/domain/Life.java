@@ -53,14 +53,17 @@ public class Life implements LifeInterface{
     
   
     // Metodi di utilità per i test
+    @Override
     public ICell getCell(int r, int c) { 
     	return currentGrid.getCell(r, c); 
     }
     
+    @Override
     public void setCell(int r, int c, boolean state) { 
     	currentGrid.getCell(r, c).setStatus(state); 
     }
     
+    @Override
     public Grid getGrid() { 
     	return currentGrid; 
     }
@@ -69,37 +72,13 @@ public class Life implements LifeInterface{
 	public boolean isAlive(int row, int col) {
 		return currentGrid.getCell(row, col).isAlive();
 	}
-
-	@Override
-	public int getRows() {
- 		return currentGrid.getRows();
-	}
-
-	@Override
-	public int getCols() {
-		return currentGrid.getCols();
-	}
-	
-	//Versione NAIVE
-//	private boolean[][] deepCopy(boolean[][] original) {
-//	    if (original == null) return null;
-//
-//	    boolean[][] result = new boolean[original.length][];
-//	    for (int i = 0; i < original.length; i++) {
-//	        // Creiamo una nuova riga e copiamo i valori della riga originale
-//	        result[i] = original[i].clone(); 
-//	        // Nota: clone() su un array di primitivi (boolean) è sicuro 
-//	        // perché i primitivi vengono copiati per valore.
-//	    }
-//	    return result;
-//	}
 	
 
-	/*private boolean[][] deepCopyJava8(boolean[][] original) {
-	    return Arrays.stream(original)
-	                 .map(boolean[]::clone)
-	                 .toArray(boolean[][]::new);
-	}*/
+	@Override
+	public void resetGrids() {
+		currentGrid.clear();
+		nextGrid.clear();
+	}
 	
 	@Override
 	public String gridRep() {
@@ -122,4 +101,25 @@ public class Life implements LifeInterface{
 	    
 	    return sb.toString();
 	}
+	
+	//Versione NAIVE
+//	private boolean[][] deepCopy(boolean[][] original) {
+//	    if (original == null) return null;
+//
+//	    boolean[][] result = new boolean[original.length][];
+//	    for (int i = 0; i < original.length; i++) {
+//	        // Creiamo una nuova riga e copiamo i valori della riga originale
+//	        result[i] = original[i].clone(); 
+//	        // Nota: clone() su un array di primitivi (boolean) è sicuro 
+//	        // perché i primitivi vengono copiati per valore.
+//	    }
+//	    return result;
+//	}
+	
+
+	/*private boolean[][] deepCopyJava8(boolean[][] original) {
+	    return Arrays.stream(original)
+	                 .map(boolean[]::clone)
+	                 .toArray(boolean[][]::new);
+	}*/
 }

@@ -4,16 +4,25 @@ public interface LifeInterface {
 	/** Calcola l'evoluzione dello stato alla generazione successiva */
     void nextGeneration();
 
-    /** Restituisce lo stato di una cella specifica */
+    /** Restituisce lo stato di una cella specifica - utility*/
     boolean isAlive(int row, int col);
 
-    /** Imposta lo stato di una cella */
+    /** Imposta lo stato di una cella - utility*/
     void setCell(int row, int col, boolean alive);
 
-    /** Restituisce il numero di righe e colonne -> metodi ceduti a IGrid */
-    int getRows();
-    int getCols();
+    /** Restituisce il numero di righe e colonne */
+//    int getRows();
+//    int getCols();
     
-    /** Restituisce una rappresentazione grafica testuale della grglia */
+    /** Restituisce la Cella */
+    ICell getCell(int x, int y);
+    
+    /** Restituisce la grid */
+    Grid getGrid();
+    
+    /** pulisce */
+    void resetGrids();
+    
+    /** Restituisce una rappresentazione grafica testuale della grglia*/
     public String gridRep( );
 }

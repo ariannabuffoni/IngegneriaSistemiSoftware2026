@@ -1,5 +1,6 @@
 package main.java.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -23,6 +24,15 @@ public class CellTest {
 	}
 	
 	@Test
+	public void TestCostruttori() {
+		System.out.println("CellTest | doing alive");
+		ICell cDefault = new Cell();
+		assertFalse(cDefault.isAlive());
+		ICell cViva = new Cell(true);
+		assertTrue(cViva.isAlive());
+	}
+	
+	@Test
 	public void TestCellAlive() {
 		System.out.println("CellTest | doing alive");
 		c.setStatus(true);
@@ -36,5 +46,15 @@ public class CellTest {
 		c.setStatus(false);
 		boolean r = c.isAlive();
 		assertTrue(!r);	// oppure assertFalse(r);
+	}
+	
+	@Test
+	public void TestSwitchStatus() {
+		System.out.println("CellTest | doing switch status");
+		c.setStatus(true);
+		c.switchStatus();
+		assertFalse(c.isAlive());
+		c.switchStatus();
+		assertTrue(c.isAlive());
 	}
 }

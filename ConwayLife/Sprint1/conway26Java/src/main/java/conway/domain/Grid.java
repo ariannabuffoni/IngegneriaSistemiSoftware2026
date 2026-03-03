@@ -1,5 +1,8 @@
 package main.java.conway.domain;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Grid implements IGrid{
 	/* Definisco la rappresentazione concreta di una griglia */ 
 	private final int rows;
@@ -89,4 +92,17 @@ public class Grid implements IGrid{
             }
         }
 	}
+	
+	public String toString() {
+	    return Arrays.stream( griglia ) // Stream di Cell[] (le righe)
+        .map(row -> {
+            // Trasformiamo ogni riga in una stringa di . e O
+            StringBuilder sb = new StringBuilder();
+            for (ICell cell : row) {
+                sb.append(cell.isAlive() ? "O " : ". ");
+            }
+            return sb.toString();
+        })
+        .collect(Collectors.joining("\n")); // Uniamo le righe con un a capo  
+  }
 }

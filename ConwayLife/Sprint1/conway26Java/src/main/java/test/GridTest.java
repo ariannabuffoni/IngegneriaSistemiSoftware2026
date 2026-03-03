@@ -2,6 +2,7 @@ package main.java.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +30,26 @@ public class GridTest {
 	}
 	
 	@Test
+	public void testDims() {
+		System.out.println("testDims ---------------------" );
+		int nr = g.getRows();
+		int nc = g.getCols();
+		assertTrue( nr==ROWS && nc==COLS);
+	}
+	@Test
+	public void testCGridCellValue() {
+		System.out.println("testCGridCellValue ---------------------" );
+		g.getCell(0,0).setStatus(true);
+		assertTrue(   g.getCell(0,0).isAlive() );
+		assertFalse(  g.getCell(0,1).isAlive() );
+	}
+	@Test
+	public void testGridRep() {
+		System.out.println("testGridRep ---------------------" );
+ 		System.out.println(""+g);
+		assertTrue( g.toString().startsWith(". . . . ."));
+	}
+	@Test
     public void testInitialization() {
 		System.out.println("GridTest | doing initialization");
         assertEquals(ROWS, g.getRows());
@@ -40,14 +61,12 @@ public class GridTest {
             }
         }
     }
-
 	@Test
 	public void testGetCell() {
 		System.out.println("GridTest | doing getCell");
 		// semantica: x e y devono essere compresi tra 0 e getRows o getCols -1
 		// mi aspetto exception o null ??
 	}
-	
     @Test
     public void testClear() {
     	System.out.println("GridTest | doing clear");
@@ -56,7 +75,6 @@ public class GridTest {
         g.clear();
         assertFalse(g.getCell(1, 1).isAlive());
     }
-
     @Test
     public void testCountAliveNeighborsBasic() {
     	System.out.println("GridTest | doing count alive neighbors BASIC");
@@ -73,7 +91,6 @@ public class GridTest {
 
         assertEquals(3, g.countAliveNeighbors(2, 2));
     }
-
     @Test
     public void testCountAliveNeighborsEdges() {
     	System.out.println("GridTest | doing count alive neighbors EDGES");
@@ -86,5 +103,36 @@ public class GridTest {
         assertEquals(3, g.countAliveNeighbors(0, 0));
     }
 	
+    @Test
+    public void TestCostruttore() {
+    	System.out.println("GridTest | costruttore con matrice boolean");
+    	 /*
+        Configurazione:
+        M V M
+        M V M
+        V M V
+    	*/
+    	boolean[][] test = new boolean[3][3];
+    	test[0][0] = false;
+    	test[0][1] = true;
+    	test[0][2] = false;
+    	test[1][0] = false;
+    	test[1][1] = true;
+    	test[1][2] = false;
+    	test[2][0] = true;
+    	test[2][1] = false;
+    	test[2][2] = true;
+    	
+    	IGrid gTest = new Grid(test);
+    	assertFalse(gTest.getCell(0, 0).isAlive());
+    	assertTrue(gTest.getCell(0, 1).isAlive());
+    	assertFalse(gTest.getCell(0, 2).isAlive());
+    	assertFalse(gTest.getCell(1, 0).isAlive());
+    	assertTrue(gTest.getCell(1, 1).isAlive());
+    	assertFalse(gTest.getCell(1, 2).isAlive());
+    	assertTrue(gTest.getCell(2, 0).isAlive());
+    	assertFalse(gTest.getCell(2, 1).isAlive());
+    	assertTrue(gTest.getCell(2, 2).isAlive());
+    }
 }
 
