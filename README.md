@@ -8,15 +8,16 @@
 # Lectures
   * [Lectures HTML](https://anatali.github.io/issLab2026/LectureBologna2026.html)
 
-# Chronicle [index](https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/docs/index.html)
+# Chronicle [index](https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/)
 
  <h2 id="ParteA">Parte A: Dai programmi ai Sistemi a Microservizi</h2>
 
  ### Sistema ConwayLife in locale
  [Riferimento: conway26Java Dai requisiti al deployment](https://anatali.github.io/issLab2026/Project%20conway26Java.html#conway26java-dai-requisiti-al-deployment)
- * [ConwayLife Sprint1](ConwayLife/Sprint1/conway26Java): impostazione di un primo prototipo
+ * [ConwayLife Sprint1 code](ConwayLife/Sprint1/conway26Java): impostazione di un primo prototipo
    in Java con dispositivi Mock di I/O. <i>Distribuzione</i>: file jar.
- * [ConwayLife Sprint2](ConwayLife/Sprint2/conway26Java): <b>evoluzione</b> del primo prototipo
+   [conway26Java_v0.html](https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html)
+ * [ConwayLife Sprint2 code](ConwayLife/Sprint2/conway26JavaSwing): <b>evoluzione</b> del primo prototipo
    con un dispositivo di output realizzato in Swing. <i>Distribuzione</i>: file jar
  ### Sistemi come servizi
  * ...
