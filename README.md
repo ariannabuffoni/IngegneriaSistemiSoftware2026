@@ -1,8 +1,14 @@
 # IngegneriaSistemiSoftware2026
  Laboratorio di <b>Ingegneria dei Sistemi Software</b> a.a. 2025/2026 di Buffoni Arianna 0001245652
 
- [Testo di riferimento:](https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf)
- <!-- comment: [ancora personalizzata] -->
+  * [contenuti HTML](https://anatali.github.io/issLab2026/index.html)
+  * [Testo di riferimento](https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf)
+  * [Gradle Tutorial](https://anatali.github.io/issLab2026/_static/docs/GradleTutorialForCompleteBeginners.pdf)
+    
+# Lectures
+  * [Lectures HTML](https://anatali.github.io/issLab2026/LectureBologna2026.html)
+
+# Chronicle [index](https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/docs/index.html)
 
  <h2 id="ParteA">Parte A: Dai programmi ai Sistemi a Microservizi</h2>
 
