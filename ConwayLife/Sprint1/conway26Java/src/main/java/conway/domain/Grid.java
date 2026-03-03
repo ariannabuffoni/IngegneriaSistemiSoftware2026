@@ -1,0 +1,92 @@
+package main.java.conway.domain;
+
+public class Grid implements IGrid{
+	/* Definisco la rappresentazione concreta di una griglia */ 
+	private final int rows;
+    private final int cols;
+	private ICell[][] griglia;
+	
+	//senza costruttore non è duttile, dimensione fissa, costruisce la griglia come pare a lui
+	
+	public Grid(int nr, int nc) {		// maggiori di 0
+		this.rows = nr;
+		this.cols = nc;
+		
+        this.griglia = new ICell[rows][cols];
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.griglia[i][j] = new Cell();
+            }
+        }
+	}
+
+	public Grid(boolean[][] initialGrid) {
+		this.rows = initialGrid.length; 	
+        this.cols = initialGrid[0].length;
+        
+        this.griglia = new ICell[rows][cols];
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.griglia[i][j] = new Cell(initialGrid[i][j]);
+            }
+        }
+	}
+
+	@Override
+	public int getRows() {
+		return rows;
+	}
+
+	@Override
+	public int getCols() {
+		return cols;
+	}
+
+	@Override
+	public ICell getCell(int row, int col) {
+		return griglia[row][col];
+	}
+
+	@Override
+	public int countAliveNeighbors(int row, int col) {
+	    int count = 0;
+
+	    // Iteriamo da -1 a +1 rispetto alla posizione della cella (r, c)
+	    // Questo crea un'area di scansione 3x3
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            
+	            // 1. Saltiamo il caso (0,0) che è la cella stessa
+	            if (i == 0 && j == 0) {
+	                continue;
+	            }
+
+	            int neighborRow = row + i;
+	            int neighborCol = col + j;
+
+	            // 2. Verifichiamo che i vicini siano entro i confini della griglia
+	            if (neighborRow >= 0 && neighborRow < rows && 
+	                neighborCol >= 0 && neighborCol < cols) {
+	                
+	                // 3. Se la cella in quella posizione è viva, incrementiamo il contatore
+	                if (griglia[neighborRow][neighborCol].isAlive()) {
+	                    count++;
+	                }
+	            }
+	        }
+	    }
+
+	    return count;
+	}
+
+	@Override
+	public void clear() {
+		for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.griglia[i][j].setStatus(false);;
+            }
+        }
+	}
+}
