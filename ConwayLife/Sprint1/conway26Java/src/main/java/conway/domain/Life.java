@@ -36,9 +36,9 @@ public class Life implements LifeInterface{
                 boolean isAlive = currentGrid.getCell(r, c).isAlive();
                 //apply rules
                 if (isAlive) {
-                    nextGrid.getCell(r, c).setStatus((neighbors == 2 || neighbors == 3));
+                    nextGrid.setCellValue(r, c,(neighbors == 2 || neighbors == 3));
                 } else {
-                	nextGrid.getCell(r, c).setStatus(neighbors == 3);
+                	nextGrid.setCellValue(r, c, (neighbors == 3));
                 }
             }
         }
@@ -60,24 +60,24 @@ public class Life implements LifeInterface{
     
     @Override
     public void setCell(int r, int c, boolean state) { 
-    	currentGrid.getCell(r, c).setStatus(state); 
+    	currentGrid.setCellValue(r, c,state); 
     }
     
     @Override
-    public Grid getGrid() { 
+    public IGrid getGrid() { 
     	return currentGrid; 
     }
 
 	@Override
 	public boolean isAlive(int row, int col) {
-		return currentGrid.getCell(row, col).isAlive();
+		return currentGrid.getCellValue(row, col);
 	}
 	
 
 	@Override
 	public void resetGrids() {
-		currentGrid.clear();
-		nextGrid.clear();
+		currentGrid.reset();
+		nextGrid.reset();
 	}
 	
 	@Override

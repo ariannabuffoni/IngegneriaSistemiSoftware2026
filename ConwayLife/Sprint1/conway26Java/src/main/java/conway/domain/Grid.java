@@ -12,6 +12,9 @@ public class Grid implements IGrid{
 	//senza costruttore non è duttile, dimensione fissa, costruisce la griglia come pare a lui
 	
 	public Grid(int nr, int nc) {		// maggiori di 0
+		if (nr < 0 || nc < 0)
+			throw new IllegalArgumentException("Le dimensioni devono essere naturali (>= 0)");
+		
 		this.rows = nr;
 		this.cols = nc;
 		
@@ -49,11 +52,15 @@ public class Grid implements IGrid{
 
 	@Override
 	public ICell getCell(int row, int col) {
+		if (row < 0 || row >= this.rows || col < 0 || col >= this.cols)
+			throw new IllegalArgumentException("Riga e colonna devono essere comprese tra 0 e getDim-1");
 		return griglia[row][col];
 	}
 
 	@Override
 	public int countAliveNeighbors(int row, int col) {
+		if (row < 0 || row >= this.rows || col < 0 || col >= this.cols)
+			throw new IllegalArgumentException("Riga e colonna devono essere comprese tra 0 e getDim-1");
 	    int count = 0;
 
 	    // Iteriamo da -1 a +1 rispetto alla posizione della cella (r, c)
@@ -83,9 +90,23 @@ public class Grid implements IGrid{
 
 	    return count;
 	}
+	
+	@Override
+	public void setCellValue(int row, int col, boolean state) {
+		if (row < 0 || row >= this.rows || col < 0 || col >= this.cols)
+			throw new IllegalArgumentException("Riga e colonna devono essere comprese tra 0 e getDim-1");
+		griglia[row][col].setStatus(state);
+	}
 
 	@Override
-	public void clear() {
+	public boolean getCellValue(int row, int col) {
+		if (row < 0 || row >= this.rows || col < 0 || col >= this.cols)
+			throw new IllegalArgumentException("Riga e colonna devono essere comprese tra 0 e getDim-1");
+		return griglia[row][col].isAlive();
+	}
+
+	@Override
+	public void reset() {
 		for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 this.griglia[i][j].setStatus(false);;

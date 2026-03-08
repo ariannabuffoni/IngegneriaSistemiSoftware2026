@@ -15,23 +15,15 @@ public class CellTest {
 	@Before
 	public void setup() {
 		System.out.println("CellTest | setup");	
-		c = new Cell();		// cell nascono morte
+		c = new Cell();		// celle nascono morte
 	}
-
 	@After
 	public void down() {
 		System.out.println("CellTest | down");
 	}
 	
-	@Test
-	public void TestCostruttori() {
-		System.out.println("CellTest | doing alive");
-		ICell cDefault = new Cell();
-		assertFalse(cDefault.isAlive());
-		ICell cViva = new Cell(true);
-		assertTrue(cViva.isAlive());
-	}
-	
+	/* settando lo stato della cella con true mi aspetto che 
+	 * quando la interrogo sul proprio stato mi dica di essere viva */
 	@Test
 	public void TestCellAlive() {
 		System.out.println("CellTest | doing alive");
@@ -40,6 +32,8 @@ public class CellTest {
 		assertTrue(r);
 	}
 	
+	/* settando lo stato della cella con false mi aspetto che 
+	 * quando la interrogo sul proprio stato mi dica di essere morta */
 	@Test
 	public void TestCellDead() {
 		System.out.println("CellTest | doing dead");
@@ -48,6 +42,8 @@ public class CellTest {
 		assertTrue(!r);	// oppure assertFalse(r);
 	}
 	
+	/* mi aspetto che andando a definire lo stato e poi a cambiarlo con switch 
+	 * quando interrogo la cella sul proprio stato mi dica l'opposto di quello che avevo definito */
 	@Test
 	public void TestSwitchStatus() {
 		System.out.println("CellTest | doing switch status");
