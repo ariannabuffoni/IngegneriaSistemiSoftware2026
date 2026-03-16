@@ -10,16 +10,25 @@ wscontrol.js
 		 console.log("sendCmdToServer:" + cmd )
 		 msg = cmdMsgTemplate.replace("CMD", cmd).replace("SENDER",pageId)
 		 //addItem("sendCmdToServer: " + msg + " opened=" + opened);		 
-		 if( opened ) socketToGui.send(msg);
+		 if( opened ) 
+		 	socketToGui.send(msg);
 	}
 				
  function  initWS(){
  /*1*/	  
-	  if( window.location.host =="" ) socketToGui = new WebSocket("ws://localhost:7070/chat");
-	  else 	socketToGui = new WebSocket("ws://"+window.location.host+"/chat");
+      console.log("initWS | window.location.host=" + window.location.host );
+	  if( window.location.host =="" ){
+		 socketToGui = new WebSocket("ws://localhost:8080/chat");
+		 console.log("initWS | socketTo Guiiii="+socketToGui);
+		 //socketToGui.send("Hello world su chat!");
+		}
+	  else{
+		socketToGui = new WebSocket("ws://"+window.location.host+"/eval");
+		//socketToGui.send("Hello world su eval!");
+	  } 	
 
  /*2*/socketToGui.onopen = () => {
-     //console.log("initWS | Connesso a eval");
+     console.log("initWS | Connesso a eval");
 	 addItem("initWS | Connesso a chat");
 	 opened = true;
 	 sendCmdToServer("ready" );
@@ -32,7 +41,7 @@ wscontrol.js
 			pageId= event.data.split(":")[1];
 			addItem( "page ID="  + pageId ); 
 		 }
-		 else if( event.data.startsWith("cell")){
+		 else if( event.data.startsWith("cell(")){ //deve ricevere da caller
 			 //addItem(event.data);
 			 coords = event.data.replace("cell(", "").replace(")","").split(",");
 			 //addItem(coords);
@@ -52,6 +61,6 @@ wscontrol.js
  }//initWS
 
  //addItem("Welcome to conwaygui ....");  
- initWS()
+  initWS()
    
  

@@ -32,7 +32,7 @@ public class LifeController implements GameController {
 	public void switchCellState(int x, int y) {
 		ICell c = life.getCell(x, y); 
 		c.switchStatus( );   
-		if( outdev != null ) outdev.displayGrid(life.getGrid());
+		if( outdev != null ) outdev.displayCell(life.getGrid(), x, y);
 	}
 	
 	protected void startTheGame() {
