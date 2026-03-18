@@ -1,16 +1,16 @@
 package conway26appl;
 
-import conway.io.IoJavalin;
+import conway.io.OutInWs;
 import main.java.conway.domain.*;
 import unibo.basicomm23.utils.CommUtils;
 
 public class MainConwayGui  {
-   	private IoJavalin server = new IoJavalin();
+   	private OutInWs server = new OutInWs();
    	
    	public void configureTheSystemWithHtmlWs(boolean pageexternal) {
    		Life life            = new Life( 20,20 );             //ncell in iomap.js
         GameController  cc   = new LifeController(life, server) ;   //un GameController che deve usare un outdev
-        ((IoJavalin) server).setController(cc);          //iniezione del controller nella GUI
+        ((OutInWs) server).setController(cc);          //iniezione del controller nella GUI
  	}
   	
     public static void main(String[] args) {
