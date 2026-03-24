@@ -25,14 +25,17 @@ public class SistemaSJavalinBetter {
 	protected void setUpServer( boolean forWS ) {
 		CommUtils.outmagenta("setUpServer forWS=" + forWS );
 		if (forWS ) {
-			if( app == null ) app = Javalin.create().start(8080);
+			if( app == null ) app = Javalin.create(config -> {
+	            config.staticFiles.add("/main/resources"); 
+	        }).start(8080);
 		}else { //forHTTP			
 			if (app == null) {
-				app = Javalin.create(config -> {
-					config.bundledPlugins.enableCors(cors -> {
-						cors.addRule(it -> it.anyHost());
-					});
-				}).start(8080);
+	            app = Javalin.create(config -> {
+	                config.staticFiles.add("/main/resources"); 
+	                config.bundledPlugins.enableCors(cors -> {
+	                    cors.addRule(it -> it.anyHost());
+	                });
+	            }).start(8080);
 			}else {
 				CommUtils.outmagenta("Server già avviato. Configuro per CORS ");
 	    		app.before(ctx -> {
@@ -80,7 +83,6 @@ public class SistemaSJavalinBetter {
     
     protected void setWorkHTTP( ) {
     	setUpServer( false ); //per HTTP
-    	app.get("/", ctx -> ctx.result("Hello World via HTTP/1.1")); 
         
         app.get("/eval", ctx -> {
 	          double x = Double.parseDouble(ctx.queryParam("x"));

@@ -1,4 +1,5 @@
-package main.java; 
+package main.java;
+
 import java.util.Map;
 import io.javalin.Javalin;
 import unibo.basicomm23.utils.CommUtils;

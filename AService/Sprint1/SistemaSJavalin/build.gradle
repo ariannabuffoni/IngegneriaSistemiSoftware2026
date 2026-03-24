@@ -55,8 +55,8 @@ eclipse {
 }
 
 application {
-    //Define the main class for the application.
-    mainClassName    = ''
+//Define the main class for the application.
+    mainClassName    = 'main.java.SistemaSJavalinBetter'
 }
 
 jar {
@@ -65,7 +65,10 @@ jar {
     manifest {
         attributes 'Main-Class': "$mainClassName"
     }
+    //Gestisci i file duplicati (evita errori di build)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
+
  
 task dovesiamo {
     println("projectDir= $projectDir")
