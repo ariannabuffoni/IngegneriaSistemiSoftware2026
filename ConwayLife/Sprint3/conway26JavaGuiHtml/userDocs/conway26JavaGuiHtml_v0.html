@@ -22,7 +22,13 @@
 <h2>Introduction</h2>
 <b>Goal: </b>Realizzazione in Java del
 <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.6'>GAME OF LIFE DI CONWAY</a> con GUI del gioco realizzata come una pagina Web.
- 
+<br/>
+<p>
+	La logica del gioco è già stata analizzata nello <a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
+	Utiliziamo quindi il risultato ottenuto, che costituisce un sottosistema funzionante, come punto di partenza per questo nuovo lavoro (deployed in un file <b>conway26Java-1.0.jar</b>).
+</p>
+
+
 <h2>Requirements</h2>
 
  
@@ -50,16 +56,27 @@
 	<li>
 		<span>il deployment del gioco deve avvenire mediante Docker</span>
 	</li>
+	<li>
+		<span>Ricordiamo dai requisiti dello 
+			<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
+			che l’utente umano deve poter:</span>
+			<ul>
+				<li>specificare la configurazione iniziale della griglia del gioco</li>
+				<li>vedere l’evoluzione del gioco in forma opportuna (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )</li>
+				<li>fermare e far ripartire l’evoluzione del gioco</li>
+				<li>pulire (a gioco fermo) la configurazione della griglia del gioco</li>
+			</ul>
+	</li>
 </ol>
 
 <h2>Requirement analysis</h2>
-<p>La logica del gioco è già stata analizzata nello <a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
-	Utiliziamo quindi il risultato ottenuto, che costituisce un sottosistema funzionante, come punto di partenza per questo nuovo lavoro.</p>
-
-<h2>Problem analysis</h2>
 <p>
-	Analizzo l'architettura del sistema che voglio realizzare, riportata in questo modello informale:<br/>
-	<img src="./img/IoJavalin_integrato.png" alt="foto" width="50%" height="50%">
+	Il requisisito di dotare il gioco di una pagina HTML si inquadra nel contesto dei moderni sistemi Web, che vengono supportati da appositi servere da Browser.
+</p>
+<p>
+	Analizzo l'architettura del sistema che voglio realizzare (javalin integrato nell'applicazione), riportata in questo modello informale:<br/>
+	<img src="./img/IoJavalin_integrato.png" alt="foto" width="75%" height="75%">
+	<br/>Il framework javalin costituisce il ‘cuore’ di un nuovo dispositivo di I/O, dando all’applicazione la responsabilità di creare la pagina HTML.
 </p>
 <p>
 	A livello strutturale, oltre alle classi già realizzate, noto che OutInWs dovrà implementare l'interfaccia 
@@ -70,6 +87,10 @@
 	La funzione di questa classe è di fare da mediatore tra il LifeController che si occupa della gestione dell'evoluzione del gioco e il browser che si occupa di presentare all'utente una rappresentazione grafica del gioco.
 	Sarà necessario un metodo setController per andare ad iniettare dentro a OutInWs un riferimento al LifeController.
 </p>
+<p>Il lancio dell'applicazione du un computer permette di attivare un browser sullo stesso computer e digitare localhost:8080 (puntando il browser verso l’indirizzo di loopback).</p>
+
+
+<h2>Problem analysis</h2>
 <p>
 	A livello di interazione, è necessario andare a definire un protocollo di interazione tra OutInWs e la pagina web, in modo che i messaggi utilizzino lo stesso linguaggio 
 	e che quindi entrambi possano essere in grado di interpretare correttamente il payload. <br/>
@@ -102,7 +123,6 @@
 	</ul>
 
 	Il server potrà inviare messaggi al client per comunicare la nuova configurazione della griglia o altri messaggi attraverso i metodi display.
-
 </p>
 <p>
 	Distribuendo via server Web la GUI del gioco si pone il problema della gestione di più utenti contemporaneamente. 

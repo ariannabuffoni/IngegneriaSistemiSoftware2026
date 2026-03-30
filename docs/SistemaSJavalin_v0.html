@@ -14,7 +14,7 @@
 
 <body>
 <div id="top">
-<h1>SistemaSJavalin Sprint1</h1>
+<h1>AService Sprint1 - SistemaSJavalin</h1>
 </div>  
 
 <div class="body">  
@@ -57,7 +57,7 @@
 	<ul>
 		<li>una WebSocket stabilisce una relazione tra il client e il server che rimane attiva fino a quando il client non chiude la connessione. 
 			Da notare che Jetty, su cui si appoggia javalin, chiude automaticamente le connessioni WS se non rileva traffico dopo un certo intervallo di tempo. Per evitare ciò si può agire sul paraemtro Idle Timeout del server o inviare periodicamente dei ping di heartbeat per tenere aperta la connessione</li>
-		<li>una interazione HTTP stabilisce invece una transizione che termina quando il server invia il risultato</li>
+		<li>una interazione HTTP stabilisce invece una transazione che termina quando il server invia il risultato</li>
 	</ul>
 </p>
 <p>
@@ -80,7 +80,7 @@ Sulla base dei principi di Separation of Concerns e Clean Architecture il sistem
 	Il sistema avrà quindi una architettura a Layer:
 	<ol>
 		<li><b>Livello di infrastruttura</b>: qui opera javalin, gestendo i protocolli e prelevando dai messaggi le informazioni rilevanti per il livello di dominio. 
-		In questo livello è opportuno separare la parte di supporto alle WebSocket e la parte di supporto ad HTTP;</li>
+		In questo livello è opportuno separare (logicamente) la parte di supporto alle WebSocket e la parte di supporto ad HTTP;</li>
 		<li><b>Livello di adattamento</b>: è il livello intermedio che trasforma i dati di basso livello forniti dall'infrastruttura nei dati richiesti dall'applicazione. 
 		Anche qui è opportuno separare le funzioni di utilità per le WebSocket da quelle per HTTP;</li>
 		<li><b>Livello di dominio</b>: la funzione eval vista prima definisce la business logic del sistema, indipendente da javalin e protocolli vari.</li>
@@ -89,7 +89,8 @@ Sulla base dei principi di Separation of Concerns e Clean Architecture il sistem
 <p>
 	Come già detto, javalin gira sopra il Server Jetty. Poiché ogni volta che arriva un messaggio, Jetty
 	assegna il compito di eseguire il codice dentro onMessage a un thread preso dal suo Thread Pool, se arrivano due messaggi quasi contemporaneamente vengono prelevati e sfruttati due thread distinti.
-	<br/>Questo significa che se ho una richiesta "lenta" dovuta ad una carico computazionale più alto (simulata con un ritardo) che arriva prima e una più veloce che arriva dopo, non sarà rispettato l'ordine di arrivo nelle risposte, ma arriverà prima la risposta veloce e poi quella lenta.
+	<br/>Questo significa che se ho una richiesta "lenta" dovuta ad una carico computazionale più alto (simulata con un ritardo) che arriva prima e una più veloce che arriva dopo, non sarà rispettato l'ordine di arrivo nelle risposte, ma arriverà prima la risposta veloce e poi quella lenta. 
+	E' importante tenere a mente questo comportamento, perché è in contrasto con quanto avviene normalmente nelle WS, dove ci si aspetta un esecuzione sequenziale delle richieste ricevute.
 </p>
 <p>
 	Per la gestione delle richieste da parte dell'utente sono necessarie 

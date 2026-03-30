@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>conway26JavaGuiHtml_Est_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>ConwayLife Sprint3 - versione esterna</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b>Realizzazione in Java del
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.6'>GAME OF LIFE DI CONWAY</a> con GUI del gioco realizzata come una pagina Web.
+<br/>
+<p>
+	La logica del gioco è già stata analizzata nello <a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
+	Utiliziamo quindi il risultato ottenuto, che costituisce un sottosistema funzionante, come punto di partenza per questo nuovo lavoro (deployed in un file <b>conway26Java-1.0.jar</b>).
+</p>
+
+
+<h2>Requirements</h2>
+
+ 
+<!-- <div class="remark"> -->
+<ol class="req-list">
+	<li>
+		<span>dotare il gioco Life di una pagina HTML come dispositivo di I/O</span>
+	</li>
+	<li>	
+		<span>la pagina deve costituire un componente esterno alla applicazione secondo la architettura riportata in 
+			<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#subsection.8.2.4" target="_blank" rel="noopener noreferrer">IoJavalin esterno all'applicazione</a>
+		</span>
+	</li>
+	<li>
+		<span>il gestore del gioco sarà l’utente che ha aperto per primo (owner) una pagina HTML collegata al gioco. In altre
+			parole, solo la pagina dell’owner avrà pulsanti di comando START/STOP/CLEAN/EXIT attivi</span>
+	</li>
+	<li>
+		<span>la pagina HTML deve essere aggiornata in modo automatico man mano il gioco procede</span>
+	</li>
+	<li>
+		<span>un utente non owner che si collega mentre il gioco è in corso, dovrebbe vedere lo stato attuale della griglia in
+			modo corretto</span>
+	</li>
+	<li>
+		<span>il deployment del gioco deve avvenire mediante Docker</span>
+	</li>
+	<li>
+		<span>Ricordiamo dai requisiti dello 
+			<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
+			che l’utente umano deve poter:</span>
+			<ul>
+				<li>specificare la configurazione iniziale della griglia del gioco</li>
+				<li>vedere l’evoluzione del gioco in forma opportuna (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )</li>
+				<li>fermare e far ripartire l’evoluzione del gioco</li>
+				<li>pulire (a gioco fermo) la configurazione della griglia del gioco</li>
+			</ul>
+	</li>
+</ol>
+
+<h2>Requirement analysis</h2>
+<p>
+	Il requisisito di dotare il gioco di una pagina HTML si inquadra nel contesto dei moderni sistemi Web, che vengono supportati da appositi servere da Browser.
+</p>
+<p>
+	Analizzo l'architettura del sistema che voglio realizzare (javalin esterno all'applicazione), riportata in questo modello informale:<br/>
+	<img src="./img/IoJavalin_esterno.png" alt="foto" width="75%" height="75%">
+	<br/>Il dispositivo di I/O utilizza un client WebSocket per interagire col server che eroga la pagina, che viene creata in modo indipendente dalla applicazione.
+</p>
+
+
+
+<h2>Problem analysis</h2>
+<p>
+	
+</p>
+
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Arianna Buffoni email: arianna.buffoni@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/fototessera_badge.jpg" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026.git
+</div> 
+</body>
+</html>
