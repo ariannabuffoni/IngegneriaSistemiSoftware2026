@@ -30,9 +30,21 @@
 
 
 <h2>Requirements</h2>
+<p>
+	Ricordiamo dai requisiti dello 
+	<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
+	che l’utente umano deve poter:
+	<ul>
+		<li>specificare la configurazione iniziale della griglia del gioco</li>
+		<li>vedere l’evoluzione del gioco in forma opportuna (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )</li>
+		<li>fermare e far ripartire l’evoluzione del gioco</li>
+		<li>pulire (a gioco fermo) la configurazione della griglia del gioco</li>
+	</ul>
+</p>
 
  
 <!-- <div class="remark"> -->
+Ora si aggiungo i seguenti requisiti:
 <ol class="req-list">
 	<li>
 		<span>dotare il gioco Life di una pagina HTML come dispositivo di I/O</span>
@@ -56,17 +68,6 @@
 	<li>
 		<span>il deployment del gioco deve avvenire mediante Docker</span>
 	</li>
-	<li>
-		<span>Ricordiamo dai requisiti dello 
-			<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/conway26Java_v0.html" target="_blank" rel="noopener noreferrer">Sprint1</a>. 
-			che l’utente umano deve poter:</span>
-			<ul>
-				<li>specificare la configurazione iniziale della griglia del gioco</li>
-				<li>vedere l’evoluzione del gioco in forma opportuna (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )</li>
-				<li>fermare e far ripartire l’evoluzione del gioco</li>
-				<li>pulire (a gioco fermo) la configurazione della griglia del gioco</li>
-			</ul>
-	</li>
 </ol>
 
 <h2>Requirement analysis</h2>
@@ -85,7 +86,7 @@
 	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/ConwayLife/Sprint3/conway26JavaGuiHtml/src/main/resources/page/ConwayInOutPage.html" target="_blank" rel="noopener noreferrer">pagina html</a>
 	via browser.<br/>
 	La funzione di questa classe è di fare da mediatore tra il LifeController che si occupa della gestione dell'evoluzione del gioco e il browser che si occupa di presentare all'utente una rappresentazione grafica del gioco.
-	Sarà necessario un metodo setController per andare ad iniettare dentro a OutInWs un riferimento al LifeController.
+	Sarà necessario un metodo <i>setController</i> per andare ad iniettare dentro a OutInWs un riferimento al LifeController.
 </p>
 <p>Il lancio dell'applicazione du un computer permette di attivare un browser sullo stesso computer e digitare localhost:8080 (puntando il browser verso l’indirizzo di loopback).</p>
 
@@ -102,23 +103,23 @@
 	<ul>
 		<li>
 			msg( eval, dispatch, SENDER, lifectrl, start, 0 ), inviato quando il cliente clicca sul bottone "START" e farà partire il gioco, 
-			ovvero il server chiamerà la funzione onStart() di LifeController
+			ovvero il server chiamerà la funzione <i>onStart()</i> di LifeController
 		</li>
 		<li>
 			msg( eval, dispatch, SENDER, lifectrl, stop, 0 ), inviato quando il cliente clicca sul bottone "STOP" e farà fermare il gioco, 
-			ovvero il server chiamerà la funzione onStop() di LifeController
+			ovvero il server chiamerà la funzionei <i>onStop()</i> di LifeController
 		</li>
 		<li>
 			msg( eval, dispatch, SENDER, lifectrl, clear, 0 ), inviato quando il cliente clicca sul bottone "CLEAR" e pulirà la griglia il gioco, 
-			ovvero il server chiamerà la funzione onClear() di LifeController
+			ovvero il server chiamerà la funzione <i>onClear()</i> di LifeController
 		</li>
 		<li>
 			msg( eval, dispatch, SENDER, lifectrl, exit, 0 ), inviato quando il cliente clicca sul bottone "EXIT" e farà interrompere la connessione, 
-			ovvero il server chiamerà la propria funzione close()
+			ovvero il server chiamerà la propria funzione <i>close()</i>
 		</li>
 		<li>
 			msg( eval, dispatch, SENDER, lifectrl, cell(x,y), 0 ), inviato quando il cliente clicca su una cella (riporterà quindi x e y relativi) e ne cambierà lo stato, 
-			ovvero il server chiamerà la funzione switchCellStatus(x,y) di LifeController
+			ovvero il server chiamerà la funzione <i>switchCellStatus(x,y)</i> di LifeController
 		</li>
 	</ul>
 
@@ -149,6 +150,12 @@
  
 
 <h2>Deployment</h2> 
+<p>
+	Il deployment avviene tramite Docker, grazie ai file 
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/ConwayLife/Sprint3/conway26JavaGuiHtml/conway26JavaGuiHtml.yaml" target="_blank" rel="noopener noreferrer">conway26JavaGuiHtml.yaml</a> e 
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/ConwayLife/Sprint3/conway26JavaGuiHtml/Dockerfile" target="_blank" rel="noopener noreferrer">Dockerfile</a>.
+</p> 
+
 
  
 <h2>Maintenance</h2> 
