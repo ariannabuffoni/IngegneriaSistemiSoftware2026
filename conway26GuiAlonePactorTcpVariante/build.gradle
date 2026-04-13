@@ -35,8 +35,9 @@ dependencies {
     /*  MQTT ********************************  */
      implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
 
-   /*  Conway ********************************  */
-     implementation name: 'conway26Java-1.0'
+ 
+    /* conway ******************************* */
+    implementation name: 'conway26Java-1.0'
 
    /*  Protoactors ********************************  */
      implementation name: 'protoactor26-1.0'
@@ -68,7 +69,7 @@ eclipse {
 
 application {
     //Define the main class for the application.
-    mainClassName    = 'conway26appl.conway26LifeganeTcp.MainLifeGame'
+    mainClassName    = 'conwaygui.MainGuiServer'
 }
 
 jar {
