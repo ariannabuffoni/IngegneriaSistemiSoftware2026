@@ -92,8 +92,23 @@ public class GuiServer extends AbstractProtoactor26 {
 	 * Called by jvlnserver. Perceived by LifeGamePactorCmdEvent
 	 */
 	public void answerToReadEvent(IApplMessage m) {
-		String payload = m.msgContent(); //+"(do)";
-		IApplMessage ev = CommUtils.buildEvent(name, m.msgContent(), payload);
+//		String payload = m.msgContent(); //+"(do)";
+//		IApplMessage ev = CommUtils.buildEvent(name, m.msgContent(), payload);
+//		CommUtils.outmagenta(name + " | answerToReadEvent from jvlnserver publish on lifegameIn: " + ev );
+//		mqttsupport.publish(  "lifegameIn",ev.toString(),1,false );  //last arg: retained
+		
+		CommUtils.outmagenta(name + " | answerToReadEvent  " + m );
+		//ADEGUO EVENTO AL LINGUAGGIO DELLA APPL
+		String msgId   = "";
+		String payload = m.msgContent() ;
+		if( payload.equals("start") || payload.equals("stop") 
+				|| payload.equals("clear") || payload.equals("exit")  ) {
+			msgId   = payload;
+			payload = payload+"(gui)";
+		}else { //cell
+			msgId   = "cellstate";
+		}
+		IApplMessage ev = CommUtils.buildEvent(name, msgId, payload);
 		CommUtils.outmagenta(name + " | answerToReadEvent from jvlnserver publish on lifegameIn: " + ev );
 		mqttsupport.publish(  "lifegameIn",ev.toString(),1,false );  //last arg: retained
 	}
