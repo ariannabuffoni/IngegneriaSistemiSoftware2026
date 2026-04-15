@@ -44,7 +44,8 @@ public class LifeGamePactorUsingMqtt extends AbstractProtoactor26 {
         
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
-            System.out.println("  " + name + " | Messaggio ricevuto via MQTT:");
+            try {
+        	System.out.println("  " + name + " | Messaggio ricevuto via MQTT:");
             System.out.println("  Topic: " + topic);
             System.out.println("  Payload: " + new String(message.getPayload()));
             System.out.println("  Retained: " + message.isRetained());
@@ -52,6 +53,10 @@ public class LifeGamePactorUsingMqtt extends AbstractProtoactor26 {
             
             IApplMessage applMessage = new ApplMessage( new String(message.getPayload()) );
             elab( applMessage );
+            }catch (Exception e) {
+                System.err.println("ERRORE FATALE NEL PARSING: " + e.getMessage());
+                e.printStackTrace(); // Fondamentale per vedere COSA ha rotto il parsing
+            }
          }
         
         @Override
