@@ -32,10 +32,7 @@ class Firefly ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 		   
 			   var  X          = 0
 			   var  Y          = 0
-			   val Timer       = 10000L 
-			   var F		   = 500L
-			   var somma	   = 0
-			   var num		   = 1
+			   var F		   = java.util.Random().nextLong(1000L,2000L )
 			   
 			   fun setCellCoords( )  {
 		     		val coordY = name.replace("firefly_","")    
@@ -45,12 +42,8 @@ class Firefly ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						 setCellCoords( )                                    
-						 F = java.util.Random().nextLong(1000L,2000L )   
-						 somma = F  
+						 setCellCoords( )  
 						CommUtils.outmagenta("$name | X=$X Y=$Y  Frequency=$F")
-						delay(500) 
-						emit("frequency", "frequency($F)" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -71,32 +64,24 @@ class Firefly ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 				 	 					  scope, context!!, "local_tout_"+name+"_flash", F )  //OCT2023
 					}	 	 
 					 transition(edgeName="t00",targetState="flash",cond=whenTimeout("local_tout_"+name+"_flash"))   
-					transition(edgeName="t01",targetState="scaduto",cond=whenEvent("timer"))
-					transition(edgeName="t02",targetState="handlefrequency",cond=whenEvent("frequency"))
+					transition(edgeName="t01",targetState="nuovaFrequenza",cond=whenEvent("timer"))
 				}	 
-				state("scaduto") { //this:State
+				state("nuovaFrequenza") { //this:State
 					action { //it:State
-						 F = somma/num  
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition( edgeName="goto",targetState="flash", cond=doswitch() )
-				}	 
-				state("handlefrequency") { //this:State
-					action { //it:State
-						if( checkMsgContent( Term.createTerm("frequency(F)"), Term.createTerm("frequency(F)"), 
+						if( checkMsgContent( Term.createTerm("timer(NUOVA_F)"), Term.createTerm("timer(F)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 somma += ${payloadArg(0)}  
-								 num += 1 
+								 
+												val F_string = payloadArg(0)
+												F = F_string.toLong()
+								CommUtils.outblack("$name | cambio frequenza a $F")
+								forward("cellstate", "cellstate($X,$Y,0)" ,"griddisplay" ) 
 						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="flash", cond=doswitch() )
+					 transition(edgeName="t02",targetState="flash",cond=whenEvent("go"))
 				}	 
 			}
 		}

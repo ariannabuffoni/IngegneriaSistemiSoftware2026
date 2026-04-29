@@ -2,13 +2,14 @@ System fireflysynch
 
 /*
  * il sistema fireflysynch simula il comportamento di 3 lucciole, che si sincronizzano dopo 10 secondi
+ * strategia di sincronizzazione: timer in creator e event per cambiare frequenza a quella predefinita
  * MODELLO DELL'ANALISTA
  */
  
 // -----definizione dei messaggi-----
 Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
-Event frequency : frequency(F)
-Event timer : timer(T)
+Event timer : timer(NUOVA_F)
+Event go : go(do)
 
 // -----definizione del contesto-----
 Context ctxfireflysynch	ip [ host="localhost" 	port=8010 ]
@@ -20,16 +21,15 @@ ExternalQActor griddisplay context ctxgrid
 
 QActor creator context ctxfireflysynch{
 	State s0 initial{    
-   	 	[#   
-		 clearlog("./logs/app_firefly.log") 	//vedi src/main/resources/logback.xml
-	 	#]
-		delay 500 
-//		[# logger.info(  "${currentState.stateName} creates 25 firefly "  ) #]
 		create firefly _"1" //confined omitted
 		create firefly _"2"
 		create firefly _"3"
 		delay 10000
-		emit timer : timer(0)
+		println("$name | timer 10 secondi")
+		[# var F = 1000L #]
+		emit timer : timer( $F )
+		delay 1000
+		emit go : go(do)
  	} 
 }   
 
@@ -38,10 +38,7 @@ QActor creator context ctxfireflysynch{
 	[#   
 	   var  X          = 0
 	   var  Y          = 0
-	   val Timer       = 10000L 
-	   var F		   = 500L
-	   var somma	   = 0
-	   var num		   = 1
+	   var F		   = java.util.Random().nextLong(1000L,2000L )
 	   
 	   fun setCellCoords( )  {
      		val coordY = name.replace("firefly_","")    
@@ -50,16 +47,12 @@ QActor creator context ctxfireflysynch{
 	   
  	#] 
 	State s0 initial{
-		[# setCellCoords( )                                   #]
-		[# F = java.util.Random().nextLong(1000L,2000L )  #]  
-		[# somma = F #]
+		[# setCellCoords( ) #]
 		println("$name | X=$X Y=$Y  Frequency=$F") color magenta
-		delay 500
-		emit frequency : frequency( $F )
 	}
 	Goto flash
+	
 	State flash{
-		//delayVar Timer
 		//TurnoOn
  		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
  		delay 500	
@@ -67,23 +60,23 @@ QActor creator context ctxfireflysynch{
  		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
 	}
 	Transition t0 
-		whenTimeVar F -> flash         //non percepisco flash di altre
-		whenEvent timer -> scaduto
-		whenEvent frequency -> handlefrequency
-		
-	State scaduto {
-		[# F = somma/num #]
-	}
-	Goto flash
+		whenTimeVar F     -> flash
+   		whenEvent timer -> nuovaFrequenza
 	
-	State handlefrequency{
-		onMsg(frequency : frequency(F)){
-			[# somma += ${payloadArg(0)} #]
-			[# num += 1#]
+	State nuovaFrequenza{
+		onMsg(timer: timer(F)){
+			[# 
+				val F_string = payloadArg(0)
+				F = F_string.toLong()
+			#]
+			println("$name | cambio frequenza a $F")
+			// Turno Off per sicurezza - tutte spente prima di ripartire
+    		forward griddisplay -m cellstate : cellstate($X,$Y,0)
 		}
+		
 	}
-	Goto flash
-	
+	Transition t0
+		whenEvent go -> flash
 	
  	
 }

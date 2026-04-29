@@ -2,8 +2,8 @@
 % fireflysynch description   
 %====================================================================================
 dispatch( cellstate, cellstate(X,Y,COLOR) ). %commute cell state
-event( frequency, frequency(F) ).
-event( timer, timer(T) ).
+event( timer, timer(NUOVA_F) ).
+event( go, go(do) ).
 %====================================================================================
 context(ctxfireflysynch, "localhost",  "TCP", "8010").
 context(ctxgrid, "127.0.0.1",  "TCP", "8050").

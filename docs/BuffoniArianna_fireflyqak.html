@@ -47,71 +47,9 @@
 </p>
 
 <p>
-	Per comportamento di una lucciola, in questa fase del progetto, si intende che si accende e si spegne per un periodo di tempo random compreso tra 1 e 5 secondi. Una lucciola non interagisce con il mondo esterno, ma per propria decisione interna passa da accesa a spenta.<br/>
-	Una lucciola sarà quindi un QAttore proattivo, che dopo uno stato iniziale, alternerà tra due stati "accesa" e "spenta" dove resterà per un tempo random, invia un dispatch che informa dello stato in cui si trova. Facendo rapid prototyping, con un QAttore outputmock ho testato velocemente il funzionamento di questo comportamento.
-	<pre>
-System fireflyquak
-/*
- * il sistema firefly simula il comportamento di una lucciola
- */
- 
-// definizione dei messaggi
-Dispatch luce : arg(V)		
-
-// definizione del contesto
-Context ctxfirefly ip [ host="localhost" port=8010 ]
-
-// definizione degli attori
-QActor firefly context ctxfirefly {
-	State s0 initial {
-		println("$name | starts") color cyan
-	}
-	Goto accesa
-		
-	State accesa {
-		println("$name | accesa") color green
-		forward outputmock -m luce : arg(1)
-		[#
-			val randomNumber = (1000..5000).random()
-			delay(randomNumber.toLong())
-		#]	
-	}
-	Goto spenta
-	
-	State spenta {
-		println("$name | spenta") color red
-		forward outputmock -m luce : arg(0)
-		[#
-			val randomNumber = (1000..5000).random()
-			delay(randomNumber.toLong())
-		#]
-	}
-	Goto accesa
-	
-	/*
-	 * ATTORE PROATTIVO:
-	 * con i due goto da accesa a spenta e viceversa si ha un ciclo infinito di vita della lucciola
-	 * in cui passa da accesa a spenta e resta tale per un numero random compreso tra 1 e 5 secondi
-	 * 
-	 */
-}
-
-QActor outputmock context ctxfirefly {
-	State s0 initial{
-		println("$name | starts") color magenta
-	}
-	
-	Transition t0 
-		whenMsg luce -> handleLuce
-		
-	State handleLuce {
-		printCurrentMessage color magenta
-	}
-	
-	Transition t0 
-		whenMsg luce -> handleLuce
-}
-	</pre>
+	Per comportamento di una lucciola, in questa fase del progetto, si intende che si accende e si spegne per 0.5 secondi con un periodo di tempo random compreso tra 0.5 e 1 secondo. Una lucciola non interagisce con il mondo esterno, ma per propria decisione interna passa da accesa a spenta.<br/>
+	Una lucciola sarà quindi un QAttore proattivo, che dopo uno stato iniziale, entrarà ciclicamente in uno stato "flash" dove si accenderà e spegnerà, inviando un dispatch che informa dello stato in cui si trova. Facendo rapid prototyping, con un QAttore outputmock ho testato velocemente il funzionamento di questo comportamento nel sequente 
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflyqak/src/firefly.qaktt" target="_blank" rel="noopener noreferrer">modello qak</a>.
 </p>
 
 

@@ -31,7 +31,8 @@ with Diagram('fireflysynchArch', show=False, outformat='png', graph_attr=graphat
      with Cluster('ctxgrid', graph_attr=nodeattr):
           griddisplay=Custom('griddisplay(ext)','./qakicons/externalQActor.png')
      creator >> Edge( label='timer', **eventedgeattr, decorate='true', fontcolor='red') >> sys
-     firefly >> Edge( label='frequency', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     creator >> Edge( label='go', **eventedgeattr, decorate='true', fontcolor='red') >> sys
      sys >> Edge( label='timer', **evattr, decorate='true', fontcolor='darkgreen') >> firefly
+     sys >> Edge( label='go', **evattr, decorate='true', fontcolor='darkgreen') >> firefly
      firefly >> Edge(color='blue', style='solid',  decorate='true', label='<cellstate &nbsp; >',  fontcolor='blue') >> griddisplay
 diag
