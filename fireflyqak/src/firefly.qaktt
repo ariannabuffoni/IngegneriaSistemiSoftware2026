@@ -1,0 +1,112 @@
+System fireflyqak		//dovrebbe chiamarsi firefly
+mqttBroker "localhost" : 1883 eventTopic "lifegameIn" //"broker.hivemq.com" 
+/*
+ * il sistema firefly simula il comportamento di una lucciola
+ * 
+ */
+ 
+// -----definizione dei messaggi-----
+Dispatch cellstate : cellstate(R,C,COLOR)
+
+// -----definizione del contesto-----
+Context ctxfirefly	ip [ host="localhost" 	port=8010 ]
+Context ctxgrid 	ip [ host="127.0.0.1" 	port=8050 ]
+
+// -----definizione degli attori-----
+// griddisplay è un attore esterno definito in un altro progetto
+ExternalQActor griddisplay context ctxgrid
+
+// firefly -> lucciola parametrizzata con R e C
+QActor firefly context ctxfirefly {
+	[# 
+		var R = 10
+		var C = 10
+	#]
+	State s0 initial {
+		printCurrentMessage color cyan
+		println("$name | starts at ($R,$C)") color cyan
+	}
+	Goto flash
+	
+	State flash{
+		printCurrentMessage color cyan
+		[# var Timer = java.util.Random().nextLong(500L,1000L ) #]
+		delayVar Timer
+		//TurnoOn
+//		println("$name | turnOn $Timer") color yellow
+		forward griddisplay -m cellstate : cellstate( $R,$C,1 )
+		delayVar Timer
+		//TurnoOff
+//		println("$name | turnOff $Timer") color red
+		forward griddisplay -m cellstate : cellstate( $R,$C,0 )
+	}
+	Goto flash
+	
+	/*
+	 * questo è il modello che scaturisce dall'ANALISI DEL PROBLEMA
+	 */
+	
+	
+//	Goto accesa
+//		
+//	State accesa {
+//		println("$name | accesa") color green
+//		emit luce : cell($R, $C)
+//		[#
+//			val randomNumber = (1000..5000).random()
+//			delay(randomNumber.toLong())
+//		#]	
+//	}
+//	Goto spenta
+//	
+//	State spenta {
+//		println("$name | spenta") color red
+//		emit luce : cell($R, $C)
+//		[#
+//			val randomNumber = (1000..5000).random()
+//			delay(randomNumber.toLong())
+//		#]
+//	}
+//	Goto accesa
+	
+	/*
+	 * ATTORE PROATTIVO:
+	 * con i due goto da accesa a spenta e viceversa si ha un ciclo infinito di vita della lucciola
+	 * in cui passa da accesa a spenta e resta tale per un numero random compreso tra 1 e 5 secondi
+	 * 
+	 */
+}
+
+//QActor outputmock context ctxfirefly {
+//	State s0 initial{
+//		println("$name | starts") color magenta
+//	}
+//	
+//	Transition t0 
+//		whenMsg luce -> handleLuce
+//		
+//	State handleLuce {
+//		printCurrentMessage color magenta
+//	}
+//	
+//	Transition t0 
+//		whenMsg luce -> handleLuce
+//}
+
+QActor griddisplaymock context ctxfirefly {
+	State s0 initial {
+		printCurrentMessage color magenta
+		println("$name | starts") color magenta
+	}
+	
+	Transition t0 
+		whenMsg cellstate -> display
+		
+	State display {
+		printCurrentMessage color magenta
+	}
+	
+	Transition t0 
+		whenMsg cellstate -> display
+	
+}

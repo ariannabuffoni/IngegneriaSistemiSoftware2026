@@ -1,0 +1,89 @@
+System fireflysynch
+
+/*
+ * il sistema fireflysynch simula il comportamento di 3 lucciole, che si sincronizzano dopo 10 secondi
+ * MODELLO DELL'ANALISTA
+ */
+ 
+// -----definizione dei messaggi-----
+Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
+Event frequency : frequency(F)
+Event timer : timer(T)
+
+// -----definizione del contesto-----
+Context ctxfireflysynch	ip [ host="localhost" 	port=8010 ]
+Context ctxgrid 		ip [ host="127.0.0.1" 	port=8050 ]
+
+// -----definizione degli attori-----
+
+ExternalQActor griddisplay context ctxgrid
+
+QActor creator context ctxfireflysynch{
+	State s0 initial{    
+   	 	[#   
+		 clearlog("./logs/app_firefly.log") 	//vedi src/main/resources/logback.xml
+	 	#]
+		delay 500 
+//		[# logger.info(  "${currentState.stateName} creates 25 firefly "  ) #]
+		create firefly _"1" //confined omitted
+		create firefly _"2"
+		create firefly _"3"
+		delay 10000
+		emit timer : timer(0)
+ 	} 
+}   
+
+ QActor firefly context ctxfireflysynch  dynamicOnly{     
+ 
+	[#   
+	   var  X          = 0
+	   var  Y          = 0
+	   val Timer       = 10000L 
+	   var F		   = 500L
+	   var somma	   = 0
+	   var num		   = 1
+	   
+	   fun setCellCoords( )  {
+     		val coordY = name.replace("firefly_","")    
+      		Y  = coordY.toInt()        
+  		}		
+	   
+ 	#] 
+	State s0 initial{
+		[# setCellCoords( )                                   #]
+		[# F = java.util.Random().nextLong(1000L,2000L )  #]  
+		[# somma = F #]
+		println("$name | X=$X Y=$Y  Frequency=$F") color magenta
+		delay 500
+		emit frequency : frequency( $F )
+	}
+	Goto flash
+	State flash{
+		//delayVar Timer
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delay 500	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar F -> flash         //non percepisco flash di altre
+		whenEvent timer -> scaduto
+		whenEvent frequency -> handlefrequency
+		
+	State scaduto {
+		[# F = somma/num #]
+	}
+	Goto flash
+	
+	State handlefrequency{
+		onMsg(frequency : frequency(F)){
+			[# somma += ${payloadArg(0)} #]
+			[# num += 1#]
+		}
+	}
+	Goto flash
+	
+	
+ 	
+}

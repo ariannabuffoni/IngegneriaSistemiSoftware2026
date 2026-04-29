@@ -18,6 +18,5 @@ public class MainLifeGame {
 	     */
 	    //new LifeGamePactorPolling("lifegame",context); //MainGuiServer.workingForPolling = true;
 	    new LifeGamePactorUsingMqtt("lifegame",context);  //MainGuiServer.workingForPolling = false;
-
 	}
 }

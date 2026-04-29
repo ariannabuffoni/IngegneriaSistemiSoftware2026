@@ -1,0 +1,8 @@
+System fireflyquak
+
+mqttBroker "localhost" : 1883 eventTopic "lifegameIn"
+
+Dispatch start : start(X)
+Event luce : cell(R, C)
+
+Context ctxfirefly ip [ host="localhost" port=8010 ]

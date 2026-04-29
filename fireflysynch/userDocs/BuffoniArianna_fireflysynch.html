@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>fireflysynch_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>Fireflysynch Sprint1</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b>costruire un sistema costituito da 3 lucciole, che si devono sincronizzare dopo 10 secondi.
+ 
+<h2>Requirements</h2>
+
+ 
+<!-- <div class="remark"> -->
+<ol class="req-list">
+	<li>
+		<span>Costruire il simulatore di un sistema costituito da 3 lucciole.</span>
+	</li>
+	<li>
+		<span>Inizialmente, le lucciole lampeggiamo ciascuna con una frequenza (costante) propria</span>
+	</li>
+	<li>
+		<span>Dopo 10 secondi le lucciole devono lampeggiare in modo sincronizzato</span>
+	</li>
+</ol>
+
+<h2>Requirement analysis</h2>
+<p>
+	Prima domanda: quante entità ho e che natura hanno?
+	Ho almeno tre entità: le lucciole richieste dal problema. Le modello come attori, perché sono entità indipendenti che non condividono memoria. Il loro comportamento comporta che si accendano e si spengano, inizialmente, ciascuno ad una sua frequenza propria.<br/>
+	Per permettere estensioni future, inserisco un'entità aggiuntiva: creator che si occupa di inizializzare le varie lucciole. In questo scenario le mie lucciole saranno quindi dei QAttori dinamici.
+	<pre>
+System fireflysynch
+
+/*
+ * il sistema fireflysynch simula il comportamento di 3 lucciole, che si sincronizzano dopo 10 secondi
+ * MODELLO DELL'ANALISTA
+ */
+
+// -----definizione del contesto-----
+Context ctxfireflysynch	ip [ host="localhost" 	port=8010 ]
+
+// -----definizione degli attori-----
+
+QActor creator context ctxfireflysynch{
+	State s0 initial{    
+   	 	// crea le tre lucciole
+ 	} 
+}   
+
+QActor firefly context ctxfireflysynch  dynamicOnly{     
+	State s0 initial{
+		// impostazione del comportamento di lampeggio, con una frequenza costante
+ 	}
+}	
+ 	 </pre>
+</p>
+
+<p>
+	Il requisito di sincronizzazione pone il problema di andare a capire come avviene questo cambiamento da indipendente a sincornizzato. Le opizioni potrebbero essere:
+	<ol>
+		<li>con un orchestratore: lucciola regina che dopo dieci secondi dice quale frequenza usare</li>
+		<li>con un orchestratore: lucciola regina che emette degli impulsi con la propria frequenza</li>
+		<li>le lucciole dopo 10 secondi commutano su una frequenza concordata (cablata)</li>
+		<li>le lucciole modificano dopo 10 secondi la loro frequenza su quella dei vicini (scelgo la più alta o la più bassa o una media)</li>
+	</ol>
+	Per scegliere tra queste strategie scelgo quella più facile da realizzare per il prototipo, devo fare un'analisi dei costi e delle risorse. Risulta immediato che la strategia con il timer interno e la frequenza cablata è la più immediata per ottenere un risultato.
+	Il costo delle altre (dato il grande contro della variabile nascosta, ma vantaggio della mancanza dell'orchestratore: con orchestratore c'è un componente in più ed è critico = per compensare replica, ma la vita del mio sistema è molto più tranquilla).
+	Orchestratore è un attore: comunica con le lucciole con event. In ogni caso deve emettere un evento: nel primo caso manda solo un supersync, nel secondo caso continua a emettere dei sync.
+	L'ultima è la strada più difficile: apre le porte a molte più problematiche, che visione ha la lucciola dei suoi vicini, ecc.?
+</p>	
+
+<h2>Problem analysis</h2>
+
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ Si potrebbe fare la refactoring della griglia.
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p>
+	
+</p>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Arianna Buffoni email: arianna.buffoni@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/fototessera_badge.jpg" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026.git
+</div> 
+</body>
+</html>
