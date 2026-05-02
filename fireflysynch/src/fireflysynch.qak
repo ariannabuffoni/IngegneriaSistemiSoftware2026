@@ -20,16 +20,11 @@ Context ctxgrid 		ip [ host="127.0.0.1" 	port=8050 ]
 ExternalQActor griddisplay context ctxgrid
 
 QActor creator context ctxfireflysynch{
-	State s0 initial{    
+	State s0 initial{
+		println("$name | starting" ) color red    
 		create firefly _"1" //confined omitted
 		create firefly _"2"
 		create firefly _"3"
-		delay 10000
-		println("$name | timer 10 secondi")
-		[# var F = 1000L #]
-		emit timer : timer( $F )
-		delay 1000
-		emit go : go(do)
  	} 
 }   
 
@@ -38,7 +33,7 @@ QActor creator context ctxfireflysynch{
 	[#   
 	   var  X          = 0
 	   var  Y          = 0
-	   var F		   = java.util.Random().nextLong(1000L,2000L )
+	   var F		   = java.util.Random().nextLong(500L,2000L )
 	   
 	   fun setCellCoords( )  {
      		val coordY = name.replace("firefly_","")    
@@ -69,7 +64,7 @@ QActor creator context ctxfireflysynch{
 				val F_string = payloadArg(0)
 				F = F_string.toLong()
 			#]
-			println("$name | cambio frequenza a $F")
+			println("$name | cambio frequenza a $F") color magenta
 			// Turno Off per sicurezza - tutte spente prima di ripartire
     		forward griddisplay -m cellstate : cellstate($X,$Y,0)
 		}
@@ -79,4 +74,17 @@ QActor creator context ctxfireflysynch{
 		whenEvent go -> flash
 	
  	
+}
+
+QActor orchestratore context ctxfireflysynch {
+	State s0 initial {
+		println("$name |starting timer 10s") color green
+		delay 10000
+		println("$name | scaduto timer") color green
+		[# var F = 1000L #]
+		emit timer : timer( $F )
+		delay 1000
+		println("$name | segnale di sincronizzazione") color green
+		emit go : go(do)
+	}
 }

@@ -32,7 +32,7 @@ class Firefly ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 		   
 			   var  X          = 0
 			   var  Y          = 0
-			   var F		   = java.util.Random().nextLong(1000L,2000L )
+			   var F		   = java.util.Random().nextLong(500L,2000L )
 			   
 			   fun setCellCoords( )  {
 		     		val coordY = name.replace("firefly_","")    
@@ -73,7 +73,7 @@ class Firefly ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 								 
 												val F_string = payloadArg(0)
 												F = F_string.toLong()
-								CommUtils.outblack("$name | cambio frequenza a $F")
+								CommUtils.outmagenta("$name | cambio frequenza a $F")
 								forward("cellstate", "cellstate($X,$Y,0)" ,"griddisplay" ) 
 						}
 						//genTimer( actor, state )

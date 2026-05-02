@@ -12,3 +12,5 @@ context(ctxgrid, "127.0.0.1",  "TCP", "8050").
  static(creator).
   qactor( firefly, ctxfireflysynch, "it.unibo.firefly.Firefly").
 dynamic(firefly). %%Oct2023 
+  qactor( orchestratore, ctxfireflysynch, "it.unibo.orchestratore.Orchestratore").
+ static(orchestratore).

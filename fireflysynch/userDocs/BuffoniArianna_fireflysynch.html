@@ -14,7 +14,7 @@
 
 <body>
 <div id="top">
-<h1>Fireflysynch Sprint1</h1>
+<h1>Fireflysynch Sprint1: A)</h1>
 </div>  
 
 <div class="body">  
@@ -40,8 +40,8 @@
 
 <h2>Requirement analysis</h2>
 <p>
-	Prima domanda: quante entità ho e che natura hanno?
-	Ho almeno tre entità: le lucciole richieste dal problema. Le modello come attori, perché sono entità indipendenti che non condividono memoria. Il loro comportamento comporta che si accendano e si spengano, inizialmente, ciascuno ad una sua frequenza propria.<br/>
+	<!--Prima domanda: quante entità ho e che natura hanno?-->
+	Nel sistema richiesto ho almeno tre entità: le lucciole richieste dal problema. Le modello come attori, perché sono entità indipendenti che non condividono memoria. Il loro comportamento comporta che si accendano e si spengano, inizialmente, ciascuno ad una sua frequenza propria.<br/>
 	Per permettere estensioni future, inserisco un'entità aggiuntiva: creator che si occupa di inizializzare le varie lucciole. In questo scenario le mie lucciole saranno quindi dei QAttori dinamici.
 	<pre>
 System fireflysynch
@@ -95,7 +95,7 @@ QActor firefly context ctxfireflysynch  dynamicOnly{
 	
 </p>
 <p>
-	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflysynch/src/fireflysynch.qak" target="_blank" rel="noopener noreferrer">Prototipo</a>. In questo primo prototipo viene sfruttata l'entità creator non solo per l'inizializzazione, ma anche per la gestione del timer: è l'orchestratore. Inoltre è stato aggiunto un secondo event go per fare in modo che non solo le lucciole si sincronizzassero sulla frequenza, ma anche sul momento in cui ripartire per sincronizzare anche la fase del lampeggio.
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflysynch/src/fireflysynch.qak" target="_blank" rel="noopener noreferrer">Prototipo</a>. In questo primo prototipo viene aggiunta un'entità orchestratore per la gestione del timer. Inoltre è stato aggiunto un secondo event go per fare in modo che non solo le lucciole si sincronizzassero sulla frequenza, ma anche sul momento in cui ripartire per sincronizzare anche la fase del lampeggio.
 </p>
 
 <h2>Test plans</h2> 

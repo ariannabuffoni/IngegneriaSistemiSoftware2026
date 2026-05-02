@@ -28,11 +28,12 @@ with Diagram('fireflysynchArch', show=False, outformat='png', graph_attr=graphat
      with Cluster('ctxfireflysynch', graph_attr=nodeattr):
           creator=Custom('creator','./qakicons/symActorWithobjSmall.png')
           firefly=Custom('firefly','./qakicons/symActorDynamicWithobj.png')
+          orchestratore=Custom('orchestratore','./qakicons/symActorWithobjSmall.png')
      with Cluster('ctxgrid', graph_attr=nodeattr):
           griddisplay=Custom('griddisplay(ext)','./qakicons/externalQActor.png')
-     creator >> Edge( label='timer', **eventedgeattr, decorate='true', fontcolor='red') >> sys
-     creator >> Edge( label='go', **eventedgeattr, decorate='true', fontcolor='red') >> sys
      sys >> Edge( label='timer', **evattr, decorate='true', fontcolor='darkgreen') >> firefly
      sys >> Edge( label='go', **evattr, decorate='true', fontcolor='darkgreen') >> firefly
+     orchestratore >> Edge( label='timer', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     orchestratore >> Edge( label='go', **eventedgeattr, decorate='true', fontcolor='red') >> sys
      firefly >> Edge(color='blue', style='solid',  decorate='true', label='<cellstate &nbsp; >',  fontcolor='blue') >> griddisplay
 diag

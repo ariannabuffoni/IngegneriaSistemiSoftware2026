@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>fireflysynch_b_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>Fireflysynch Sprint2: B) </h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b>costruire un sistema costituito da 3 lucciole e un sonar. Quando il sonar rileva un ostacolo a distanza minore di DMIN, le lucciole devono lampeggiare in modo sincronizzato. Quando la distanza risupera DMIN, le lucciole tornano a lampeggiare in modo random.
+
+<h2>Requirements</h2>
+
+ 
+<!-- <div class="remark"> -->
+<ol class="req-list">
+	<li>
+		<span>Costruire il simulatore di un sistema costituito da 3 lucciole e un sonar.</span>
+	</li>
+	<li>
+		<span>Inizialmente, le lucciole lampeggiamo ciascuna con una frequenza (costante) propria</span>
+	</li>
+	<li>
+		<span>Quando il sonar rileva una distanza minore di DMIN (prefissata), le lucciole devono lampeggiare in modo sincronizzato</span>
+	</li>
+	<li>
+		<span>Quando la distanza rilevata dal sonar risupera DMIN, le lucciole tornano a lampeggiare in modo random, ciascuna con la propria frequenza originale.</span>
+	</li>
+</ol>
+
+<h2>Requirement analysis</h2>
+<p>
+	<!--Prima domanda: quante entità ho e che natura hanno?-->
+	Il sistema del 
+	<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/BuffoniArianna_fireflysynch.html" target="_blank" rel="noopener noreferrer">prototipo A)</a>
+	viene esteso con una nuova entità: il sonar. Il sonar è un'entità indipendente che osserva l'ambiente e reagisce ai cambiamenti, quindi è naturalmente modellabile come attore. 
+	In questa prima analisi il sonar verrà realizzato come mock: ad intervalli periodici genererà dei numeri random (rappresentanti la distanza rilevata). Sarà il sonar ad assumere ora il ruolo di orchestratore del comportamento sincronizzato delle lucciole, in base ai valori della distanza.
+	<pre>
+System fireflysynch_b
+
+// -----definizione del contesto-----
+Context ctxfireflysynch	ip [ host="localhost" 	port=8010 ]
+
+// -----definizione degli attori-----
+
+QActor creator context ctxfireflysynch{
+	State s0 initial{
+		// crea le tre lucciole
+	}
+}
+
+QActor firefly context ctxfireflysynch dynamicOnly{
+	State s0 initial{
+		// impostazione del comportamento di lampeggio con frequenza propria
+	}
+}
+
+QActor sonarmock context ctxfireflysynch {
+	State s0 initial{
+		// rilevazione periodica della distanza
+		// emissione di eventi al cambio di stato (normale <-> allarme)
+	}
+}	
+ 	 </pre>
+</p>	
+
+<h2>Problem analysis</h2>
+<p>
+	Il comportamento delle lucciole è un'estensione diretta del prototipo A. 
+	La differenza sostanziale è che ora esistono due trigger di cambio frequenza invece di uno: l'evento minore (che porta la nuova frequenza sincronizzata) e l'evento maggiore (che segnala il ritorno alla normalità). 
+	Lo stato nuovaFrequenza gestisce entrambi i casi con due onMsg distinti, dopodiché attende l'evento go per ripartire in modo coordinato.
+</p>
+<p>
+	Il sonar campiona la distanza con periodo Timer e deve reagire solo alle transizioni di stato (normale -> allarme, allarme -> normale), non ad ogni singola rilevazione. Questo è il motivo della variabile stato_allarme: funge da memoria del contesto corrente, evitando l'emissione ripetuta di eventi quando la condizione persiste invariata.<br/>
+	Le quattro combinazioni possibili sono:
+	<ul>
+		<li>
+			!stato_allarme && dist &ge; DMIN : situazione normale, nessuna azione
+		</li>
+		<li>
+			!stato_allarme && dist &lt; DMIN : transizione a allarme: emit minore + go
+		</li>
+		<li>
+			stato_allarme && dist &lt; DMIN : allarme già attivo, nessuna azione
+		</li>
+		<li>
+			stato_allarme && dist &ge; DMIN : transizione a normale: emit maggiore + go
+		</li>
+	</ul>
+	Il sonarmock diventa il componente orchestratore che gestisce la logica di allarme e la notifica alle lucciole.
+</p>
+<p>
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflysynchB/src/fireflysynchB.qak" target="_blank" rel="noopener noreferrer">Prototipo</a> realizzato sulla base delle considerazioni fatte in questa analisi.
+</p>
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p>
+	
+</p>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Arianna Buffoni email: arianna.buffoni@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/fototessera_badge.jpg" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026.git
+</div> 
+</body>
+</html>

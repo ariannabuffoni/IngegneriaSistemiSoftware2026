@@ -32,15 +32,10 @@ class Creator ( name: String, scope: CoroutineScope, isconfined: Boolean=false, 
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
+						CommUtils.outred("$name | starting")
 						createActorDynamically("firefly", "_1", false)
 						createActorDynamically("firefly", "_2", false)
 						createActorDynamically("firefly", "_3", false)
-						delay(10000) 
-						CommUtils.outblack("$name | timer 10 secondi")
-						 var F = 1000L  
-						emit("timer", "timer($F)" ) 
-						delay(1000) 
-						emit("go", "go(do)" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

@@ -1,0 +1,124 @@
+System fireflysynch_b
+
+/*
+ * il sistema fireflysynch_b simula il comportamento di 3 lucciole e un sonar (mock)
+ * quando il sonar rileva una distanza miore a DMIN (prefissata) le lucciole devono lampeggiare sincronizzate,
+ * quando la distanza risupera DMIN le lucciole tornano a lampeggiare in modo random
+ * MODELLO DELL'ANALISTA
+ */
+ 
+// -----definizione dei messaggi-----
+Dispatch cellstate : cellstate(X,Y,COLOR)     "commute cell state"
+Event minore : minore(F)
+Event go : go(do)
+Event maggiore : maggiore(do)
+
+// -----definizione del contesto-----
+Context ctxfireflysynch	ip [ host="localhost" 	port=8010 ]
+Context ctxgrid 		ip [ host="127.0.0.1" 	port=8050 ]
+
+// -----definizione degli attori-----
+
+ExternalQActor griddisplay context ctxgrid
+
+QActor creator context ctxfireflysynch{
+	State s0 initial{    
+		create firefly _"1" //confined omitted
+		create firefly _"2"
+		create firefly _"3"
+ 	} 
+}   
+
+ QActor firefly context ctxfireflysynch  dynamicOnly{     
+ 
+	[#   
+	   var  X          = 0
+	   var  Y          = 0
+	   var F_INIT	   = java.util.Random().nextLong(1000L,3000L )
+	   var F 		   = F_INIT
+	   var __durata__  = F / 2L
+	   
+	   fun setCellCoords( )  {
+     		val coordY = name.replace("firefly_","")    
+      		Y  = coordY.toInt()        
+  		}		
+	   
+ 	#] 
+	State s0 initial{
+		[# setCellCoords( ) #]
+		println("$name | X=$X Y=$Y  Frequency=$F") color magenta
+	}
+	Goto flash
+	
+	State flash{
+		//TurnoOn
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,1) 				
+ 		delayVar __durata__	
+		//TurnoOff
+ 		forward griddisplay -m  cellstate : cellstate($X,$Y,0) 				
+	}
+	Transition t0 
+		whenTimeVar F     -> flash
+   		whenEvent minore -> nuovaFrequenza
+   		whenEvent maggiore -> nuovaFrequenza
+	
+	State nuovaFrequenza{
+		onMsg(minore: minore(F)){
+			[# 
+				val F_string = payloadArg(0)
+				F = F_string.toLong()
+				__durata__ = F / 2L
+			#]
+			println("$name | cambio frequenza a $F") color magenta
+			// Turno Off per sicurezza - tutte spente prima di ripartire
+    		forward griddisplay -m cellstate : cellstate($X,$Y,0)
+		}
+		
+		onMsg(maggiore: maggiore(do)){
+			[# 
+				F = F_INIT 
+				__durata__ = F / 2L
+			 #]
+			println("$name | ritorno alla frequenza iniziale $F") color magenta
+		}
+	}
+	Transition t0
+		whenEvent go -> flash
+}
+
+QActor sonarmock context ctxfireflysynch {
+	[# 
+		var DMIN = 30 
+		var dist_rilevata = 0
+		var Timer = 2000L
+		var stato_allarme = false
+	 #]
+	State s0 initial {
+		println("$name | starting") color green
+	}
+	Goto rileva
+	
+	State rileva{
+		[# dist_rilevata = java.util.Random().nextInt(0, 100 )#]
+		println("$name | distanza rilevata = $dist_rilevata") color green
+		if [# !stato_allarme && dist_rilevata <DMIN #] {
+			println("$name | INIZIO stato di allarme") color green
+			[# 
+				var F = 500L
+				stato_allarme = true 
+			 #]
+			emit minore : minore($F)	
+			delay 500
+			emit go : go(do)
+		}
+		if [# stato_allarme && dist_rilevata >= DMIN #]{
+			[# stato_allarme = false #]
+			println("$name | FINE stato di allarme") color green
+			emit maggiore : maggiore(do)
+			delay 500
+			emit go : go(do)
+		}
+	}
+	Transition t0 
+		whenTimeVar Timer -> rileva
+}
