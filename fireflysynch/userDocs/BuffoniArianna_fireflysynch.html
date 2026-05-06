@@ -26,7 +26,7 @@
 
  
 <!-- <div class="remark"> -->
-<ol class="req-list">
+<ol>
 	<li>
 		<span>Costruire il simulatore di un sistema costituito da 3 lucciole.</span>
 	</li>
@@ -42,7 +42,8 @@
 <p>
 	<!--Prima domanda: quante entità ho e che natura hanno?-->
 	Nel sistema richiesto ho almeno tre entità: le lucciole richieste dal problema. Le modello come attori, perché sono entità indipendenti che non condividono memoria. Il loro comportamento comporta che si accendano e si spengano, inizialmente, ciascuno ad una sua frequenza propria.<br/>
-	Per permettere estensioni future, inserisco un'entità aggiuntiva: creator che si occupa di inizializzare le varie lucciole. In questo scenario le mie lucciole saranno quindi dei QAttori dinamici.
+	Per permettere estensioni future, inserisco un'entità aggiuntiva: creator che si occupa esclusivamente di inizializzare le varie lucciole. In questo scenario le mie lucciole saranno quindi dei QAttori dinamici.<br/>
+	Tutte le entità comunicano esclusivamente tramite messaggi, senza condivisione di memoria, secondo il modello ad attori.
 	<pre>
 System fireflysynch
 
@@ -70,6 +71,7 @@ QActor firefly context ctxfireflysynch  dynamicOnly{
  	 </pre>
 </p>
 
+<h2>Problem analysis</h2>
 <p>
 	Il requisito di sincronizzazione pone il problema di andare a capire come avviene questo cambiamento da indipendente a sincornizzato. Le opizioni potrebbero essere:
 	<ol>
@@ -79,8 +81,6 @@ QActor firefly context ctxfireflysynch  dynamicOnly{
 		<li>le lucciole modificano dopo 10 secondi la loro frequenza su quella dei vicini (per poi scegliere la più alta o la più bassa o una media)</li>
 	</ol>
 </p>	
-
-<h2>Problem analysis</h2>
 <p>
 	Le specifiche del comportamento sono già state prese in esame nell'analisi di  
 	<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/BuffoniArianna_fireflyqak.html" target="_blank" rel="noopener noreferrer">fireflyqak</a>.
@@ -95,7 +95,10 @@ QActor firefly context ctxfireflysynch  dynamicOnly{
 	
 </p>
 <p>
-	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflysynch/src/fireflysynch.qak" target="_blank" rel="noopener noreferrer">Prototipo</a>. In questo primo prototipo viene aggiunta un'entità orchestratore per la gestione del timer. Inoltre è stato aggiunto un secondo event go per fare in modo che non solo le lucciole si sincronizzassero sulla frequenza, ma anche sul momento in cui ripartire per sincronizzare anche la fase del lampeggio.
+	<a href="https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026/blob/main/fireflysynch/src/fireflysynch.qak" target="_blank" rel="noopener noreferrer">Prototipo</a>. In questo primo prototipo viene aggiunta un'entità orchestratore per la gestione del timer. <br/>
+	Allo scadere del timer, l'orchestratore invierà 
+	
+	Inoltre è stato aggiunto un secondo event go per fare in modo che non solo le lucciole si sincronizzassero sulla frequenza, ma anche sul momento in cui ripartire per sincronizzare anche la fase del lampeggio.
 </p>
 
 <h2>Test plans</h2> 

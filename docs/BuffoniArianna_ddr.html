@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<!--
+    <script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+    
+</head>
+   
+<title>ddr_v0</title></head>
+    
+
+<body>
+<div id="top">
+<h1>DDR Sprint1</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<b>Goal: </b> Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. 
+
+<h2>Requirements</h2>
+<p>
+	Costruire un sistema software che comanda un Differential Drive Robot (DDR) in modo che, 
+	partendo dalla posizione iniziale HOME, il robot si sposti lungo il perimetro di una stanza rettangolare vuota. <br/>
+	Il DDR si deve fermare quando tornato in HOME.
+</p>
+<p>
+	Il DDR è anche sensibile ai dati rilevati da un Radar.
+	Quando il Radar rileva un 'intruso' a una distanza minore di una distanza prefissata ``DMIN``:
+	<ul>
+		<li>se il DDR si sta muovendo , il DDR si ferma fino a che il Radar non rileva più un 'intruso' così vicino </li>
+		<li>se il DDR è fermo in HOME, il DDR ruota su sè stesso fino a che un 'intruso' così vicino scompare</li>
+	</ul>
+</p>
+
+<h2>Requirement analysis</h2>
+<p>
+	<!--Prima domanda: quante entità ho e che natura hanno? METADOMANDA!
+	Prima domanda: cos'è un DDR? ok robot, ma che proprietà ha? move e rotate-->
+	Il sistema software preso in esame è composto dalle seguenti entità:<br/>
+	<ul>
+		<li>
+			<b>Radar</b>: è un'entità prottiva che controlla, a intervalli regolari, i dintorni del DDR e rileva eventuali 'intrusi' che si trovino ad una distanza inferiore di DMIN. 
+		</li>
+
+		<li>
+			<b>Differential Drive Robot (DDR)</b>: è un'entià proattiva e reattiva. <br/>
+			Proattiva perché si muoverà lungo il perimetro della stanza, di cui conosce le dimensioni per configurazione. Parte da una posizione fissata e immutabile, che chiamerò HOME (sarà una variabile).
+			Il DDR deve essere quindi capace di muoversi in avanti e di ruotare su sé stesso, per cambiare direzione agli angoli. 
+			Si sposterà quindi seguendo i quattro lati della stanza e ruotando su sè stesso di 90° agli angoli. Si fermerà infine quando ritorna nella posizione HOME. <br/>
+			Reattiva perché risponderà alle informazioni rilevate dal Radar, mutando il proprio comportamento. Il comportamento varia a seconda dello stato in cui si trova il DDR nel momento di ricezione del messaggio: 
+			se il DDR è in movimento, si deve fermare; se invece il DDR è fermo in HOME, deve ruotare su sè stesso. Questo comportamento deve continuare fino a che l'intruso non scompare, uscendo dalla zona critica. 
+			A questo punto il DDR ritornerà allo stato in cui era stato interrotto.<br/>
+		</li>
+		
+	</ul>
+	Le due entità non codividono memoria e comunicano solo condividendo tra loro dei messaggi. Scelgo, in base a queste considerazione, di modellare queste entità come 
+	<a href="https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.17.1" target="_blank" rel="noopener noreferrer">attore</a>
+<pre>
+System ddrsystem
+
+// MODELLO DALL'ANALISTA
+
+Context ctxddr ip [ host="localhost" port=8010 ]
+
+QActor radar context ctxddr {
+	[# DMIN = 5 #]
+	State s0 initial {
+		// impostazione del comportamento di monitoraggio dei dintorni
+	}
+}
+
+QActor ddr context ctxddr {
+	[#
+		BASE = 10
+		ALTEZZA = 5
+	#]
+	State s0 initial {
+		// impostazione del comporamento di percorso del perimetro
+	}
+}
+</pre>
+</p>	
+
+<h2>Problem analysis</h2>
+
+
+<h2>Test plans</h2> 
+
+
+
+<h2>Project</h2> 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+<p>
+	
+</p>
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
+By Arianna Buffoni email: arianna.buffoni@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="./img/fototessera_badge.jpg" alt="foto" width="8%" height="8%">
+GIT repo: https://github.com/ariannabuffoni/IngegneriaSistemiSoftware2026.git
+</div> 
+</body>
+</html>

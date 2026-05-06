@@ -47,7 +47,6 @@
 	Il sistema del 
 	<a href="https://ariannabuffoni.github.io/IngegneriaSistemiSoftware2026/BuffoniArianna_fireflysynch.html" target="_blank" rel="noopener noreferrer">prototipo A)</a>
 	viene esteso con una nuova entità: il sonar. Il sonar è un'entità indipendente che osserva l'ambiente e reagisce ai cambiamenti, quindi è naturalmente modellabile come attore. 
-	In questa prima analisi il sonar verrà realizzato come mock: ad intervalli periodici genererà dei numeri random (rappresentanti la distanza rilevata). Sarà il sonar ad assumere ora il ruolo di orchestratore del comportamento sincronizzato delle lucciole, in base ai valori della distanza.
 	<pre>
 System fireflysynch_b
 
@@ -84,6 +83,7 @@ QActor sonarmock context ctxfireflysynch {
 	Lo stato nuovaFrequenza gestisce entrambi i casi con due onMsg distinti, dopodiché attende l'evento go per ripartire in modo coordinato.
 </p>
 <p>
+	In questa prima analisi il sonar verrà realizzato come mock: ad intervalli periodici genererà dei numeri random (rappresentanti la distanza rilevata). Sarà il sonar ad assumere ora il ruolo di orchestratore del comportamento sincronizzato delle lucciole, in base ai valori della distanza.
 	Il sonar campiona la distanza con periodo Timer e deve reagire solo alle transizioni di stato (normale -> allarme, allarme -> normale), non ad ogni singola rilevazione. Questo è il motivo della variabile stato_allarme: funge da memoria del contesto corrente, evitando l'emissione ripetuta di eventi quando la condizione persiste invariata.<br/>
 	Le quattro combinazioni possibili sono:
 	<ul>
