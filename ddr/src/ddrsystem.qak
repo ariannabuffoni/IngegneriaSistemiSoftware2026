@@ -28,6 +28,7 @@ QActor radar context ctxddrsys {
 	Transition t0 
 		whenTimeVar Timer -> rileva_distanza
 }
+
 QActor mind context ctxddrsys withobj ddr using "Method"{
 	[# var DMIN = 0.5 // in metri #]
 	 State s0 initial {
