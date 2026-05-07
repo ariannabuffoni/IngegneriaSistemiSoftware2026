@@ -1,0 +1,56 @@
+System ddrsystem
+
+/*
+ * MODELLO DELL'ANALISTA
+ */
+ 
+// -----definizione dei messaggi-----
+Event radar : distance(D)
+
+// -----definizione del contesto-----
+Context ctxddrsys	ip [ host="localhost" 	port=8010 ]
+
+// -----definizione degli attori-----
+QActor radar context ctxddrsys {
+	[# 
+		var D = 0
+		var Timer = 1000L
+	 #]
+	State s0 initial {
+		println("$name | starting") color green
+	}
+	Goto rileva_distanza
+	
+	State rileva_distanza{
+		// rilevamento della distanza D (in metri)
+		emit radar : distance(D)
+	}
+	Transition t0 
+		whenTimeVar Timer -> rileva_distanza
+}
+QActor mind context ctxddrsys withobj ddr using "Method"{
+	[# var DMIN = 0.5 // in metri #]
+	 State s0 initial {
+	 	println("$name | starting") color cyan
+	 	// muove ddr sul perimetro della stanza, utilizzando i metodi esposti da ddr
+	 }
+	 Transition t0
+	 	whenEvent radar -> handleRadar
+	 	
+	 State handleRadar{
+	 	onMsg(radar : distance(D) ){
+	 		[# 
+				val D_string = payloadArg(0)
+				var D = D_string.toLong()
+			#]
+			/* 
+			 * se D è minore di DMIN si entra in stato di allarme:
+			 * - se il ddr era in movimento si ferma
+			 * - se il ddr era già rientrato in HOME comincia a ruotare su sè stesso
+			 * questo fino a che D non torna maggiore di DMIN
+			 */
+	 	}
+	 }
+	 Goto s0
+	 
+}
