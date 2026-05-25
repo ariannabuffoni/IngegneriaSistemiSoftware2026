@@ -1,7 +1,7 @@
 %====================================================================================
-% sistemasqak description   
+% ddrboundary description   
 %====================================================================================
 %====================================================================================
-context(ctxsistemas, "localhost",  "TCP", "8010").
- qactor( sistemas, ctxsistemas, "it.unibo.sistemas.Sistemas").
- static(sistemas).
+context(ctxboundary, "localhost",  "TCP", "8125").
+ qactor( boundaryworker, ctxboundary, "it.unibo.boundaryworker.Boundaryworker").
+ static(boundaryworker).

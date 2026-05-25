@@ -21,10 +21,10 @@ evattr = {
     'color': 'darkgreen',
     'style': 'dotted'
 }
-with Diagram('sistemasqakArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('ddrboundaryArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
-     with Cluster('ctxsistemas', graph_attr=nodeattr):
-          sistemas=Custom('sistemas','./qakicons/symActorWithobjSmall.png')
+     with Cluster('ctxboundary', graph_attr=nodeattr):
+          boundaryworker=Custom('boundaryworker','./qakicons/symActorWithobjSmall.png')
 diag

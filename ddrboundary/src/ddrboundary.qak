@@ -1,0 +1,9 @@
+System ddrboundary
+
+Context ctxboundary ip [host="localhost" port=8125]
+
+QActor boundaryworker context ctxboundary withobj room using "location/Room.java" {
+	State s0 initial {
+		
+	}
+}
